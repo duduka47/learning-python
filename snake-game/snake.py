@@ -27,6 +27,14 @@ class Snake:
    def increase(self) -> None:
       self.create_segment(self.segments[-1].position())
    
+   def reset_snake(self):
+      for segment in self.segments:
+         segment.goto(1000, 1000)
+
+      self.segments.clear()
+      self.create_snake()
+      self.head: Turtle = self.segments[0] 
+
    def move(self) -> None:
       for seg_num in range(len(self.segments) -1, 0, -1):
          new_x = self.segments[seg_num - 1].xcor()

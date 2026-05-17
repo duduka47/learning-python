@@ -11,6 +11,7 @@ screen.bgcolor("white")
 screen.setup(600, 600)
 screen.tracer(0)
 screen.colormode(255)
+screen.title("Chicken Crossroad but with a Turtle")
 
 game = Game()
 player = Player()
