@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
 from random import choice, randint, shuffle
+import json
 import pyperclip
 ERASE_INPUT = (0, 'end')
 
@@ -30,26 +31,26 @@ def generate_password():
 
 def save_password():
 
+   website = website_input.get()
+   email = email_username_input.get()
+   password = password_input.get()
+   if len(website) <= 3 or len(email) <= 3 or len(password) <= 6:
+      messagebox.showwarning(title="Oops", message="Don't leave fields empty or too short :D")
+      return
+   ok = messagebox.askokcancel(title=website, message=f'These are the details entered: \nEmail:{email} \nPassword: {password} \nIs it ok to save?')
 
-   with open("password.txt", mode='a') as file:
-      website = website_input.get()
-      email = email_username_input.get()
-      password = password_input.get()
+   if ok:
+      with open("data.json", mode='w') as file:
+         new_entry = {website: {"email": email, "password": password}}
 
-      if len(website) <= 3 or len(email) <= 3 or len(password) <= 6:
-         messagebox.showwarning(title="Oops", message="Don't leave fields empty or too short :D")
-         return
+         json.dump(new_entry, file, indent=4)
 
-      ok = messagebox.askokcancel(title=website, message=f'These are the details entered: \nEmail:{email} \nPassword: {password} \nIs it ok to save?')
-
-      if ok:
-         file.write(f'{website} | {email} | {password} \n')
          website_input.delete(*ERASE_INPUT)
          email_username_input.delete(*ERASE_INPUT)
          password_input.delete(*ERASE_INPUT)
          messagebox.showinfo(title='Success', message="Password saved successfully")
-      else:
-         messagebox.showinfo(title='Cancelled', message="Operation cancelled")
+   else:
+      messagebox.showinfo(title='Cancelled', message="Operation cancelled")
    
 
 
